@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{ modalTitle }}</h2>
+
+<form class="transaction-form" [formGroup]="form" (ngSubmit)="save()">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Descricao</mat-label>
+    <input matInput formControlName="description">
+  </mat-form-field>
+
+  <div class="row-two-columns">
+    <mat-form-field appearance="outline">
+      <mat-label>Valor (R$)</mat-label>
+    <input matInput type="number" formControlName="amount">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo</mat-label>
+    <mat-select formControlName="type">
+      <mat-option [value]="1">Receita</mat-option>
+      <mat-option [value]="2">Despesa</mat-option>
+    </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="row-two-columns">
+    <mat-form-field appearance="outline">
+      <mat-label>Categoria</mat-label>
+      <mat-select formControlName="categoryId">
+
+        <ng-container *ngIf="categories$ | async as categories; else loading">
+
+          <mat-option *ngFor="let c of categories" [value]="c.id">
+            {{ c.name }}
+          </mat-option>
+
+        </ng-container>
+
+      </mat-select>
+
+      <ng-template #loading>
+        <mat-option disabled>
+          Carregando...
+        </mat-option>
+      </ng-template>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Data</mat-label>
+      <input matInput type="date" formControlName="date">
+    </mat-form-field>
+  </div>
+
+  <div class="form-actions">
+    <button class="btn-cancel" mat-button type="button" (click)="close()">Cancelar</button>
+    <button class="btn-save" mat-raised-button color="primary" type="submit">Salvar</button>
+  </div>
+
+</form>

@@ -1,0 +1,131 @@
+.dashboard {
+  padding: 24px;
+  background: #1a1a2e;
+  min-height: calc(100vh - 64px);
+  color: #e0e0e0;
+}
+
+/* Cabeçalho */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.period-label {
+  font-size: 14px;
+  color: #9e9e9e;
+  text-transform: capitalize;
+}
+
+.category-select {
+  background: #2a2a3e;
+  color: #e0e0e0;
+  border: 1px solid #3a3a5e;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Cards */
+.summary-cards {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  flex: 1;
+  background: #2a2a3e;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-label {
+  font-size: 13px;
+  color: #9e9e9e;
+}
+
+.card-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.card-bar {
+  height: 8px;
+  border-radius: 4px;
+  width: 70%;
+}
+
+.bar-blue  { background: #4a9eff; }
+.bar-green { background: #a8d8a8; }
+.bar-red   { background: #f4a0a0; }
+
+/* Gráfico */
+.chart-section {
+  background: #2a2a3e;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.chart-header {
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  font-size: 13px;
+  color: #9e9e9e;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 160px;
+  padding-bottom: 24px;
+  position: relative;
+}
+
+.bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  height: 100%;
+}
+
+.bar {
+  width: 100%;
+  background: #a8c8f0;
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+  transition: height 0.3s ease;
+}
+
+.bar.bar-negative {
+  background: #f4a0a0;
+}
+
+.bar-wrapper.bar-current .bar {
+  background: #4a9eff;
+}
+
+.bar-label {
+  font-size: 10px;
+  color: #9e9e9e;
+  margin-top: 4px;
+}
+
+.chart-empty {
+  text-align: center;
+  color: #9e9e9e;
+  padding: 40px 0;
+}

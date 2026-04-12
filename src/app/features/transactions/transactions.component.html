@@ -1,0 +1,87 @@
+<div class="transactions-page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <span class="sidebar-title">Categorias</span>
+    <ul class="category-list">
+      <li
+        class="category-item"
+        [class.active]="selectedCategoryId === ''"
+        (click)="selectSidebarCategory('')">
+        <span class="dot"></span> Todas
+      </li>
+      <li
+        *ngFor="let cat of categories"
+        class="category-item"
+        [class.active]="selectedCategoryId === cat.id"
+        (click)="selectSidebarCategory(cat.id)">
+        <span class="dot"></span> {{ cat.name }}
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Área principal -->
+  <main class="main-area">
+
+    <!-- Cabeçalho -->
+    <div class="main-header">
+      <div class="filters">
+        <select class="filter-select" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
+          <option *ngFor="let m of availableMonths" [value]="m.value">{{ m.label }}</option>
+        </select>
+      </div>
+      <button class="btn-new" (click)="openCreateDialog()">+ Nova Transação</button>
+    </div>
+
+    <!-- Tabela -->
+    <div class="table-wrapper">
+      <table class="transactions-table">
+        <thead>
+          <tr>
+            <th>DESCRIÇÃO</th>
+            <th>CATEGORIA</th>
+            <th>VALOR</th>
+            <th>DATA</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let t of (transactions$ | async) ?? []; let i = index"
+            [class.row-alt]="i % 2 === 1">
+            <td class="col-description">{{ t.description }}</td>
+            <td>
+              <span class="badge" [class.badge-income]="t.type === 1" [class.badge-expense]="t.type === 2">
+                {{ getCategoryName(t.categoryId) }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [class.badge-income]="t.type === 1" [class.badge-expense]="t.type === 2">
+                {{ t.amount | currency:'BRL':'symbol':'1.2-2' }}
+              </span>
+            </td>
+            <td class="col-date">{{ t.date | date:'dd/MM/yyyy' }}</td>
+            <td class="col-actions">
+              <button class="btn-action" (click)="edit(t)" title="Editar">✏️</button>
+              <button class="btn-action btn-delete" (click)="delete(t)" title="Excluir">🗑️</button>
+            </td>
+          </tr>
+          <tr *ngIf="!(transactions$ | async)?.length">
+            <td colspan="5" class="empty-row">Nenhuma transação encontrada.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginação -->
+    <div class="pagination-wrapper">
+      <mat-paginator
+        [length]="totalItems"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+
+  </main>
+</div>

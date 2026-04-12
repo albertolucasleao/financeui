@@ -1,0 +1,13 @@
+<app-loading></app-loading>
+
+<mat-toolbar color="primary">
+  <span class="toolbar-title">FinTrack</span>
+  <nav class="toolbar-nav">
+    <a mat-button routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+    <a mat-button routerLink="/transactions" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Transações</a>
+  </nav>
+</mat-toolbar>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

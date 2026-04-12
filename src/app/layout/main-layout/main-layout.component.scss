@@ -1,0 +1,21 @@
+.toolbar-title {
+  flex: 1;
+  font-weight: bold;
+}
+
+.toolbar-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.toolbar-nav a {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.toolbar-nav a.active-link {
+  opacity: 1;
+  font-weight: bold;
+  border-bottom: 2px solid white;
+}

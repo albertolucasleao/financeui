@@ -1,0 +1,56 @@
+<div class="dashboard">
+
+  <!-- Cabeçalho -->
+  <div class="dashboard-header">
+    <div class="dashboard-title">
+      <span class="period-label">{{ month | date:'MMMM yyyy' }}</span>
+    </div>
+    <div class="dashboard-filter">
+      <select class="category-select" [(ngModel)]="selectedCategoryId" (change)="onCategoryChange()">
+        <option value="">Todas as categorias</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Cards de resumo -->
+  <div class="summary-cards">
+    <div class="card card-balance">
+      <span class="card-label">Saldo atual</span>
+      <div class="card-bar bar-blue"></div>
+      <span class="card-value">{{ (summary?.balance ?? 0) | currency:'BRL':'symbol':'1.2-2' }}</span>
+    </div>
+    <div class="card card-income">
+      <span class="card-label">Entradas</span>
+      <div class="card-bar bar-green"></div>
+      <span class="card-value">{{ (summary?.totalIncome ?? 0) | currency:'BRL':'symbol':'1.2-2' }}</span>
+    </div>
+    <div class="card card-expense">
+      <span class="card-label">Saídas</span>
+      <div class="card-bar bar-red"></div>
+      <span class="card-value">{{ (summary?.totalExpense ?? 0) | currency:'BRL':'symbol':'1.2-2' }}</span>
+    </div>
+  </div>
+
+  <!-- Gráfico de evolução -->
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">Evolução do saldo por período</span>
+    </div>
+    <div class="chart-bars">
+      <div
+        class="bar-wrapper"
+        *ngFor="let point of chartData"
+        [class.bar-current]="point.day === currentDay">
+        <div
+          class="bar"
+          [style.height.%]="barHeight(point.value)"
+          [class.bar-negative]="point.value < 0">
+        </div>
+        <span class="bar-label">{{ point.day }}</span>
+      </div>
+    </div>
+    <div *ngIf="!chartData.length" class="chart-empty">Sem dados para o período.</div>
+  </div>
+
+</div>
