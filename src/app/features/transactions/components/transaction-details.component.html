@@ -1,0 +1,92 @@
+<div class="details-dialog">
+
+  <!-- Cabeçalho -->
+  <div class="dialog-header">
+    <h2 class="dialog-title">Detalhes da Transação</h2>
+    <button class="btn-close" type="button" (click)="close()">✕</button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <span>Carregando...</span>
+  </div>
+
+  <!-- Erro -->
+  <div *ngIf="errorMessage && !isLoading" class="error-state">
+    {{ errorMessage }}
+  </div>
+
+  <ng-container *ngIf="!isLoading && !errorMessage">
+
+    <!-- Informações principais -->
+    <div class="info-section">
+      <div class="info-row">
+        <span class="info-label">Descrição</span>
+        <span class="info-value">{{ transaction.description }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Valor</span>
+        <span class="info-value amount" [class.income]="transaction.type === 1" [class.expense]="transaction.type === 2">
+          {{ transaction.amount | currency:'BRL':'symbol':'1.2-2' }}
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Data</span>
+        <span class="info-value">{{ transaction.date | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Categoria</span>
+        <span class="info-value badge" [class.badge-income]="transaction.type === 1" [class.badge-expense]="transaction.type === 2">
+          {{ getCategoryName(transaction.categoryId) }}
+        </span>
+      </div>
+      <div class="info-row" *ngIf="transaction.notes">
+        <span class="info-label">Notas</span>
+        <span class="info-value notes-text">{{ transaction.notes }}</span>
+      </div>
+    </div>
+
+    <!-- Gráfico por categoria -->
+    <div class="section">
+      <span class="section-title">Distribuição por categoria no mês</span>
+      <div *ngIf="breakdown.length; else noBreakdown" class="breakdown-list">
+        <div class="breakdown-row" *ngFor="let b of breakdown">
+          <span class="breakdown-name">{{ b.categoryName }}</span>
+          <div class="breakdown-bar-wrapper">
+            <div class="breakdown-bar" [style.width.%]="barWidth(b.total)"></div>
+          </div>
+          <span class="breakdown-value">{{ b.total | currency:'BRL':'symbol':'1.2-2' }}</span>
+        </div>
+      </div>
+      <ng-template #noBreakdown>
+        <p class="empty-text">Sem dados de categoria para o período.</p>
+      </ng-template>
+    </div>
+
+    <!-- Histórico de alterações -->
+    <div class="section">
+      <span class="section-title">Histórico de alterações</span>
+      <div *ngIf="history.length; else noHistory" class="history-list">
+        <div class="history-item" *ngFor="let h of history">
+          <span class="history-badge" [class.history-created]="h.changeType === 0" [class.history-updated]="h.changeType === 1" [class.history-deleted]="h.changeType === 2">
+            {{ changeTypeLabel[h.changeType] }}
+          </span>
+          <span class="history-date">{{ h.changedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+      </div>
+      <ng-template #noHistory>
+        <p class="empty-text">Nenhum histórico registrado.</p>
+      </ng-template>
+    </div>
+
+  </ng-container>
+
+  <!-- Ações -->
+  <div class="dialog-actions">
+    <button class="btn-cancel" mat-button type="button" (click)="close()">Fechar</button>
+    <button class="btn-delete" mat-raised-button color="warn" type="button" (click)="confirmDelete()">
+      Excluir transação
+    </button>
+  </div>
+
+</div>

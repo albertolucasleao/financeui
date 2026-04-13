@@ -6,6 +6,7 @@ export interface CreateTransactionDto {
   categoryId: string;
   date: string;
   userId: string;
+  notes?: string;
 }
 
 export interface UpdateTransactionDto {
@@ -14,6 +15,7 @@ export interface UpdateTransactionDto {
   type: number;
   categoryId: string;
   date: string;
+  notes?: string;
 }
 
 // Parâmetros para filtros de transação

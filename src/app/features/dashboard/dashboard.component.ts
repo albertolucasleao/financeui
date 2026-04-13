@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { Summary } from '../../models/summary.model';
 import { ChartPoint } from '../../models/chart.model';
 import { Category } from '../../models/category.model';
@@ -13,15 +13,16 @@ import { Category } from '../../models/category.model';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
-  private http = inject(HttpClient);
+export class DashboardComponent implements OnChanges {
+  @Input() summary: Summary | null = null;
+  @Input() chartData: ChartPoint[] = [];
+  @Input() categories: Category[] = [];
+  @Input() selectedCategoryId: string = '';
+  @Input() month: string = new Date().toISOString().slice(0, 7);
+  @Input() errorMessage: string = '';
 
-  summary: Summary | null = null;
-  chartData: ChartPoint[] = [];
-  categories: Category[] = [];
-  selectedCategoryId: string = '';
-
-  readonly month = new Date().toISOString().slice(0, 7);
+  @Output() refresh = new EventEmitter<void>();
+  @Output() categoryChange = new EventEmitter<string>();
 
   get maxChartValue(): number {
     if (!this.chartData.length) return 1;
@@ -36,36 +37,15 @@ export class DashboardComponent implements OnInit {
     return Math.round((Math.abs(value) / this.maxChartValue) * 100);
   }
 
-  ngOnInit() {
-    this.loadCategories();
-    this.loadSummary();
-    this.loadChart();
+  ngOnChanges(): void {
+    // Inputs gerenciados pelo container — nenhuma lógica interna aqui
   }
 
-  loadCategories() {
-    this.http.get<Category[]>('http://localhost:5000/api/categories').subscribe(data => {
-      this.categories = data;
-    });
-  }
-
-  loadSummary() {
-    let url = `http://localhost:5000/api/transactions/summary?month=${this.month}`;
-    if (this.selectedCategoryId) url += `&categoryId=${this.selectedCategoryId}`;
-    this.http.get<Summary>(url).subscribe(data => {
-      this.summary = data;
-    });
-  }
-
-  loadChart() {
-    let url = `http://localhost:5000/api/transactions/chart?month=${this.month}`;
-    if (this.selectedCategoryId) url += `&categoryId=${this.selectedCategoryId}`;
-    this.http.get<ChartPoint[]>(url).subscribe(data => {
-      this.chartData = data;
-    });
+  onRefresh(): void {
+    this.refresh.emit();
   }
 
   onCategoryChange() {
-    this.loadSummary();
-    this.loadChart();
+    this.categoryChange.emit(this.selectedCategoryId);
   }
 }

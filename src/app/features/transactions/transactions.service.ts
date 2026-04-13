@@ -5,6 +5,8 @@ import { Transaction } from '../../models/transaction.model';
 import { PagedResult } from '../../models/paged-result.model';
 import { Category } from '../../models/category.model';
 import { CreateTransactionDto, UpdateTransactionDto, TransactionFilterParams } from '../../models/transaction-dto.model';
+import { TransactionHistory } from '../../models/transaction-history.model';
+import { CategoryBreakdown } from '../../models/category-breakdown.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,13 @@ export class TransactionsService {
 
   getCategories(): Observable<Category[]> {
     return this.api.get<Category[]>('categories');
+  }
+
+  getTransactionHistory(id: string): Observable<TransactionHistory[]> {
+    return this.api.get<TransactionHistory[]>(`transactions/${id}/history`);
+  }
+
+  getCategoryBreakdown(month: string): Observable<CategoryBreakdown[]> {
+    return this.api.get<CategoryBreakdown[]>('transactions/summary/by-category', { month });
   }
 }

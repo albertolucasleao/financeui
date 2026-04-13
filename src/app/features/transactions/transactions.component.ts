@@ -12,6 +12,7 @@ import { Transaction } from '../../models/transaction.model';
 import { PagedResult } from '../../models/paged-result.model';
 import { Category } from '../../models/category.model';
 import { TransactionFormComponent } from './components/transaction-form.component';
+import { TransactionDetailsComponent } from './components/transaction-details.component';
 import { CreateTransactionDto, UpdateTransactionDto } from '../../models/transaction-dto.model';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { NotificationService } from '../../core/services/notification.service';
@@ -130,7 +131,7 @@ export class TransactionsComponent implements OnInit {
 
       const createDto: CreateTransactionDto = {
         ...result,
-        userId: '105FA51B-F5CB-4D78-929E-1806AFDA5A82' // TODO: Obter do contexto de autenticação
+        userId: 'ADC1C63E-F850-4E93-B100-E08BEB6FD184' // TODO: Obter do contexto de autenticação
       };
 
       this.service.createTransaction(createDto).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
@@ -162,6 +163,20 @@ export class TransactionsComponent implements OnInit {
             ...this.stateSubject.value
           });
         });
+    });
+  }
+
+  openDetails(transaction: Transaction) {
+    const dialogRef = this.dialog.open(TransactionDetailsComponent, {
+      width: '620px',
+      panelClass: 'dark-dialog',
+      data: { transaction, categories: this.categories }
+    });
+
+    dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(result => {
+      if (result?.action === 'deleted') {
+        this.stateSubject.next({ ...this.stateSubject.value });
+      }
     });
   }
 

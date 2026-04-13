@@ -30,6 +30,23 @@
   outline: none;
 }
 
+.btn-refresh {
+  background: transparent;
+  color: #7b8ee8;
+  border: 1px solid #7b8ee8;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: #7b8ee8;
+    color: #ffffff;
+  }
+}
+
 /* Cards */
 .summary-cards {
   display: flex;
@@ -67,6 +84,14 @@
 .bar-blue  { background: #4a9eff; }
 .bar-green { background: #a8d8a8; }
 .bar-red   { background: #f4a0a0; }
+
+.balance-positive {
+  color: #a8d8a8;
+}
+
+.balance-negative {
+  color: #f4a0a0;
+}
 
 /* Gráfico */
 .chart-section {
@@ -128,4 +153,13 @@
   text-align: center;
   color: #9e9e9e;
   padding: 40px 0;
+}
+
+.dashboard-error {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid rgba(244, 160, 160, 0.35);
+  border-radius: 8px;
+  background: rgba(244, 160, 160, 0.12);
+  color: #ffd4d4;
 }

@@ -48,7 +48,9 @@
         <tbody>
           <tr
             *ngFor="let t of (transactions$ | async) ?? []; let i = index"
-            [class.row-alt]="i % 2 === 1">
+            [class.row-alt]="i % 2 === 1"
+            class="row-clickable"
+            (click)="openDetails(t)">
             <td class="col-description">{{ t.description }}</td>
             <td>
               <span class="badge" [class.badge-income]="t.type === 1" [class.badge-expense]="t.type === 2">
@@ -62,8 +64,8 @@
             </td>
             <td class="col-date">{{ t.date | date:'dd/MM/yyyy' }}</td>
             <td class="col-actions">
-              <button class="btn-action" (click)="edit(t)" title="Editar">✏️</button>
-              <button class="btn-action btn-delete" (click)="delete(t)" title="Excluir">🗑️</button>
+              <button class="btn-action" (click)="edit(t); $event.stopPropagation()" title="Editar">✏️</button>
+              <button class="btn-action btn-delete" (click)="delete(t); $event.stopPropagation()" title="Excluir">🗑️</button>
             </td>
           </tr>
           <tr *ngIf="!(transactions$ | async)?.length">

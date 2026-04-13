@@ -154,6 +154,14 @@
   tr.row-alt td {
     background: #242438;
   }
+
+  tr.row-clickable {
+    cursor: pointer;
+
+    &:hover td {
+      background: #2e2e48;
+    }
+  }
 }
 
 .col-description {

@@ -3,7 +3,7 @@
 <form class="transaction-form" [formGroup]="form" (ngSubmit)="save()">
 
   <mat-form-field appearance="outline">
-    <mat-label>Descricao</mat-label>
+    <mat-label>Descrição</mat-label>
     <input matInput formControlName="description">
   </mat-form-field>
 
@@ -49,6 +49,21 @@
       <input matInput type="date" formControlName="date">
     </mat-form-field>
   </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>
+      Notas
+      <span class="notes-tip" title="Use este campo para observações internas da transação.">&#9432;</span>
+    </mat-label>
+    <textarea
+      matInput
+      formControlName="notes"
+      rows="3"
+      maxlength="1000"
+      title="Notas internas da transação (máximo de 1000 caracteres).">
+    </textarea>
+    <mat-hint align="end">{{ form.get('notes')?.value?.length || 0 }}/1000</mat-hint>
+  </mat-form-field>
 
   <div class="form-actions">
     <button class="btn-cancel" mat-button type="button" (click)="close()">Cancelar</button>

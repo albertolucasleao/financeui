@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  background: #2a2a3e;
+  color: #e0e0e0;
+  padding: 8px;
+}
+
+h2[mat-dialog-title] {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.dialog-content {
+  margin-bottom: 20px;
+}
+
+.dialog-content p {
+  margin: 0;
+  color: #cfcfe0;
+  line-height: 1.5;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-cancel {
+  border: 1px solid #4a4a60;
+  border-radius: 8px;
+  color: #e0e0e0;
+}
+
+.btn-delete {
+  border-radius: 8px;
+}

@@ -32,7 +32,7 @@ export class TransactionFormComponent implements OnInit {
     public data = inject(MAT_DIALOG_DATA, { optional: true });
 
     get modalTitle(): string {
-        return this.data ? 'Editar Transacao' : 'Nova Transacao';
+        return this.data ? 'Editar Transação' : 'Nova Transação';
     }
 
     form = this.fb.group({
@@ -40,7 +40,8 @@ export class TransactionFormComponent implements OnInit {
         amount: [0, [Validators.required, Validators.min(1)]],
         type: [1, Validators.required],
         categoryId: ['', Validators.required],
-        date: ['', Validators.required]
+        date: ['', Validators.required],
+        notes: ['', [Validators.maxLength(1000)]]
     });
 
     ngOnInit(): void {
@@ -55,7 +56,8 @@ export class TransactionFormComponent implements OnInit {
             amount: this.data.amount,
             type: this.data.type,
             categoryId: this.data.categoryId,
-            date: this.data.date?.substring(0, 10)
+            date: this.data.date?.substring(0, 10),
+            notes: this.data.notes ?? ''
         });
     }
 
